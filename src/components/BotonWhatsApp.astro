@@ -1,0 +1,55 @@
+---
+import { whatsappUrl } from '../data/sitio';
+import IconoWhatsApp from './IconoWhatsApp.astro';
+---
+
+<a class="whatsapp" href={whatsappUrl} target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" transition:persist>
+  <IconoWhatsApp />
+  <span class="whatsapp__texto" aria-hidden="true">¿Tienes una consulta?</span>
+</a>
+
+<style>
+  .whatsapp {
+    position: fixed;
+    right: clamp(1rem, 3vw, 1.75rem);
+    bottom: clamp(1rem, 3vw, 1.75rem);
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    height: 56px;
+    padding: 0 1rem;
+    border-radius: 28px;
+    background: #1f8f4e;
+    color: var(--blanco);
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 10px 24px -8px rgb(12 38 28 / 0.55);
+    transition:
+      background-color 200ms var(--ease),
+      transform 200ms var(--ease);
+  }
+
+  .whatsapp:hover {
+    background: #187a42;
+    transform: translateY(-2px);
+  }
+
+  .whatsapp :global(svg) {
+    width: 26px;
+    height: 26px;
+    flex: none;
+  }
+
+  @media (max-width: 760px) {
+    .whatsapp {
+      width: 56px;
+      padding: 0;
+      justify-content: center;
+    }
+
+    .whatsapp__texto {
+      display: none;
+    }
+  }
+</style>

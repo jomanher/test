@@ -1,0 +1,215 @@
+:root {
+  /* Verdes de la selva de Madre de Dios */
+  --selva-950: #0c261c;
+  --selva-900: #12342a;
+  --selva-700: #1f5a3d;
+  --selva-500: #3a7f58;
+  --selva-100: #dfe9e1;
+  /* Dorado y azul tomados del logo */
+  --oro-300: #e7bf88;
+  --oro-500: #c8995a;
+  --oro-700: #8a6230;
+  --tinta: #17222e;
+  --tinta-suave: #44515c;
+  --papel: #f3f6f1;
+  --blanco: #ffffff;
+
+  --cabecera-alto: 76px;
+  --ancho: 72rem;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --radio: 6px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0;
+}
+
+h2 {
+  font-size: clamp(1.9rem, 1.4rem + 2vw, 2.75rem);
+  letter-spacing: 0.02em;
+  color: var(--selva-900);
+}
+
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--oro-500);
+  outline-offset: 3px;
+}
+
+section[id] {
+  scroll-margin-top: var(--cabecera-alto);
+}
+
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.seccion {
+  padding-block: clamp(4rem, 9vw, 7.5rem);
+}
+
+/* Filete dorado bajo los títulos de sección */
+.filete {
+  display: block;
+  width: 3.5rem;
+  height: 2px;
+  margin-top: 1rem;
+  background: var(--oro-500);
+}
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radio);
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition:
+    background-color 200ms var(--ease),
+    color 200ms var(--ease),
+    border-color 200ms var(--ease);
+}
+
+.boton svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: none;
+}
+
+.boton--oro {
+  background: var(--oro-500);
+  color: var(--selva-950);
+}
+
+.boton--oro:hover {
+  background: var(--oro-300);
+}
+
+.boton--claro {
+  border-color: rgb(255 255 255 / 0.55);
+  color: var(--blanco);
+}
+
+.boton--claro:hover {
+  border-color: var(--oro-300);
+  color: var(--oro-300);
+}
+
+.boton--verde {
+  background: var(--selva-700);
+  color: var(--blanco);
+}
+
+.boton--verde:hover {
+  background: var(--selva-900);
+}
+
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Aparición suave al hacer scroll (solo si hay JS) */
+.js [data-revelar] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 700ms var(--ease),
+    transform 700ms var(--ease);
+}
+
+.js [data-revelar].visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Ligera ampliación de fotos al pasar el ratón */
+.foto-zoom {
+  overflow: hidden;
+}
+
+.foto-zoom img {
+  transition: transform 900ms var(--ease);
+}
+
+@media (hover: hover) {
+  .foto-zoom:hover img {
+    transform: scale(1.035);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .js [data-revelar] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .foto-zoom:hover img {
+    transform: none;
+  }
+}

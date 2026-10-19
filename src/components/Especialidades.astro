@@ -1,0 +1,220 @@
+---
+import { Image } from 'astro:assets';
+import { especialidades } from '../data/especialidades';
+---
+
+<section class="seccion especialidades" id="especialidades" aria-labelledby="titulo-especialidades">
+  <div class="contenedor">
+    <header class="especialidades__cabeza" data-revelar>
+      <h2 id="titulo-especialidades">Especialidades</h2>
+      <span class="filete" aria-hidden="true"></span>
+      <p>Los asuntos que más atendemos en Puerto Maldonado y el resto de Madre de Dios.</p>
+    </header>
+
+    <div class="especialidades__rejilla" data-especialidades>
+      <!-- En escritorio, la foto queda fija y cambia según la especialidad que se está leyendo -->
+      <div class="visor" aria-hidden="true">
+        <div class="visor__marco">
+          {especialidades.map((e, i) => (
+            <Image
+              class:list={['visor__foto', { activa: i === 0 }]}
+              data-foto={e.id}
+              src={e.imagen}
+              alt=""
+              width={560}
+            />
+          ))}
+        </div>
+      </div>
+
+      <ol class="especialidades__lista" role="list">
+        {especialidades.map((e) => (
+          <li class="especialidad" id={e.id} data-especialidad={e.id} data-revelar>
+            <div class="especialidad__foto foto-zoom">
+              <Image src={e.imagen} alt={e.alt} width={720} />
+            </div>
+            <h3>{e.nombre}</h3>
+            <p>{e.resumen}</p>
+            <ul>
+              {e.casos.map((c) => (
+                <li>{c}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .especialidades {
+    background: var(--blanco);
+  }
+
+  .especialidades__cabeza {
+    max-width: 38rem;
+  }
+
+  .especialidades__cabeza p {
+    margin-top: 1.25rem;
+    font-size: 1.125rem;
+    color: var(--tinta-suave);
+  }
+
+  .especialidades__rejilla {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .visor {
+    position: relative;
+  }
+
+  .visor__marco {
+    position: sticky;
+    top: calc(var(--cabecera-alto) + 2.5rem);
+    aspect-ratio: 1;
+    max-height: calc(100svh - var(--cabecera-alto) - 5rem);
+    overflow: hidden;
+    border-radius: var(--radio);
+    background: var(--selva-900);
+  }
+
+  .visor :global(.visor__foto) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.03);
+    transition:
+      opacity 700ms var(--ease),
+      transform 1200ms var(--ease);
+  }
+
+  .visor :global(.visor__foto.activa) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .especialidades__lista {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .especialidad {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: min(66svh, 34rem);
+    padding-block: 2rem;
+    border-top: 1px solid rgb(18 52 42 / 0.12);
+  }
+
+  .especialidad:first-child {
+    border-top: 0;
+    padding-top: 0;
+    justify-content: flex-start;
+    min-height: min(60svh, 30rem);
+  }
+
+  .especialidad h3 {
+    font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.2rem);
+    color: var(--selva-900);
+    transition: color 400ms var(--ease);
+  }
+
+  .especialidad > p {
+    margin-top: 1rem;
+    max-width: 34rem;
+    font-size: 1.1rem;
+  }
+
+  .especialidad ul {
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .especialidad ul li {
+    position: relative;
+    padding: 0.45rem 0 0.45rem 1.5rem;
+    color: var(--tinta-suave);
+  }
+
+  /* Rombo dorado como viñeta */
+  .especialidad ul li::before {
+    content: '';
+    position: absolute;
+    left: 0.15rem;
+    top: 1.05em;
+    width: 7px;
+    height: 7px;
+    background: var(--oro-500);
+    transform: rotate(45deg);
+  }
+
+  .especialidad__foto {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .especialidades__rejilla {
+      grid-template-columns: 1fr;
+    }
+
+    .visor {
+      display: none;
+    }
+
+    .especialidad,
+    .especialidad:first-child {
+      min-height: 0;
+      padding-block: 2.5rem;
+    }
+
+    .especialidad:first-child {
+      padding-top: 0;
+    }
+
+    .especialidad__foto {
+      display: block;
+      margin-bottom: 1.5rem;
+      border-radius: var(--radio);
+      aspect-ratio: 4 / 3;
+    }
+
+    .especialidad__foto :global(img) {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+</style>
+
+<script>
+  function iniciarEspecialidades() {
+    const rejilla = document.querySelector<HTMLElement>('[data-especialidades]');
+    if (!rejilla || !('IntersectionObserver' in window)) return;
+    const fotos = rejilla.querySelectorAll<HTMLElement>('[data-foto]');
+    const activar = (id: string) => fotos.forEach((f) => f.classList.toggle('activa', f.dataset.foto === id));
+
+    // Se activa la especialidad que cruza la franja central de la pantalla
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        for (const entrada of entradas) {
+          if (entrada.isIntersecting) activar((entrada.target as HTMLElement).dataset.especialidad ?? '');
+        }
+      },
+      { rootMargin: '-45% 0px -45% 0px' },
+    );
+    rejilla.querySelectorAll('[data-especialidad]').forEach((el) => observador.observe(el));
+  }
+
+  document.addEventListener('astro:page-load', iniciarEspecialidades);
+</script>

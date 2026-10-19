@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base titulo="Página no encontrada | Estudio Manrique">
+  <section class="seccion no-encontrada">
+    <div class="contenedor">
+      <h1 transition:name="marca">Página no encontrada</h1>
+      <span class="filete" aria-hidden="true"></span>
+      <p>La dirección que buscas no existe o cambió.</p>
+      <a class="boton boton--verde" href="/">Volver al inicio</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .no-encontrada {
+    min-height: 60svh;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+    color: var(--selva-900);
+  }
+
+  p {
+    margin-block: 1.5rem 2rem;
+    font-size: 1.125rem;
+  }
+</style>

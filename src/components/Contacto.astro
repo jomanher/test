@@ -1,0 +1,128 @@
+---
+import { sitio, whatsappUrl, mapaEmbedUrl } from '../data/sitio';
+import IconoWhatsApp from './IconoWhatsApp.astro';
+---
+
+<section class="seccion contacto" id="contactanos" aria-labelledby="titulo-contacto">
+  <div class="contenedor contacto__rejilla">
+    <div class="contacto__datos" data-revelar>
+      <h2 id="titulo-contacto">Contáctanos</h2>
+      <span class="filete" aria-hidden="true"></span>
+      <p class="contacto__intro">Cuéntanos tu caso por WhatsApp o visítanos en la oficina.</p>
+
+      <dl class="datos">
+        <div>
+          <dt>Dirección</dt>
+          <dd>
+            <address>
+              {sitio.direccion}<br />
+              {sitio.ciudad}, {sitio.region}
+            </address>
+          </dd>
+        </div>
+        <div>
+          <dt>WhatsApp</dt>
+          <dd><a href={whatsappUrl} target="_blank" rel="noopener">{sitio.whatsappVisible}</a></dd>
+        </div>
+      </dl>
+
+      <div class="contacto__acciones">
+        <a class="boton boton--verde" href={whatsappUrl} target="_blank" rel="noopener">
+          <IconoWhatsApp />
+          Escríbenos por WhatsApp
+        </a>
+        <a class="boton contacto__ruta" href={sitio.mapsUrl} target="_blank" rel="noopener">Cómo llegar en Google Maps</a>
+      </div>
+    </div>
+
+    <div class="contacto__mapa" data-revelar>
+      <iframe
+        src={mapaEmbedUrl}
+        title={`Mapa: ${sitio.nombre}, ${sitio.direccion}, ${sitio.ciudad}`}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contacto__rejilla {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: stretch;
+  }
+
+  .contacto__intro {
+    margin-top: 1.25rem;
+    font-size: 1.125rem;
+    color: var(--tinta-suave);
+  }
+
+  .datos {
+    display: grid;
+    gap: 1.5rem;
+    margin: 2.25rem 0 0;
+  }
+
+  .datos dt {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    color: var(--oro-700);
+  }
+
+  .datos dd {
+    margin: 0.3rem 0 0;
+    font-size: 1.2rem;
+  }
+
+  .datos address {
+    font-style: normal;
+  }
+
+  .datos a {
+    text-decoration-color: var(--oro-500);
+    text-underline-offset: 4px;
+  }
+
+  .contacto__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+  }
+
+  .contacto__ruta {
+    border-color: var(--selva-700);
+    color: var(--selva-700);
+  }
+
+  .contacto__ruta:hover {
+    background: var(--selva-100);
+  }
+
+  .contacto__mapa {
+    min-height: 24rem;
+    overflow: hidden;
+    border-radius: var(--radio);
+    border: 1px solid rgb(18 52 42 / 0.15);
+    background: var(--selva-100);
+  }
+
+  .contacto__mapa iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 24rem;
+    border: 0;
+  }
+
+  @media (max-width: 900px) {
+    .contacto__rejilla {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

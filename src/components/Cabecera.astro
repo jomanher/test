@@ -1,0 +1,259 @@
+---
+import { Image } from 'astro:assets';
+import logoEncabezado from '../assets/logo_encabezado.webp';
+
+const enlaces = [
+  { href: '/#inicio', texto: 'Inicio' },
+  { href: '/#especialidades', texto: 'Especialidades' },
+  { href: '/#contactanos', texto: 'Contáctanos' },
+];
+---
+
+<header class="cabecera" data-cabecera transition:persist>
+  <div class="contenedor cabecera__barra">
+    <a class="cabecera__logo" href="/#inicio" aria-label="Estudio Manrique, ir al inicio">
+      <Image src={logoEncabezado} alt="Estudio Manrique" height={50} densities={[1, 2]} loading="eager" />
+    </a>
+
+    <button
+      class="cabecera__menu"
+      type="button"
+      aria-expanded="false"
+      aria-controls="navegacion"
+      data-boton-menu
+    >
+      <span class="solo-lectores">Abrir menú</span>
+      <span class="hamburguesa" aria-hidden="true"><span></span></span>
+    </button>
+
+    <nav class="cabecera__nav" id="navegacion" aria-label="Principal">
+      <ul>
+        {enlaces.map((e) => (
+          <li>
+            <a href={e.href}>{e.texto}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .cabecera {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(243 246 241 / 0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+    transition:
+      border-color 300ms var(--ease),
+      box-shadow 300ms var(--ease);
+  }
+
+  .cabecera[data-desplazada] {
+    border-bottom-color: rgb(18 52 42 / 0.12);
+    box-shadow: 0 6px 20px -12px rgb(12 38 28 / 0.35);
+  }
+
+  .cabecera__barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--cabecera-alto);
+  }
+
+  .cabecera__logo img {
+    width: auto;
+    height: 50px;
+  }
+
+  .cabecera__nav ul {
+    display: flex;
+    gap: clamp(1.5rem, 3vw, 2.75rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cabecera__nav a {
+    position: relative;
+    display: inline-block;
+    padding-block: 0.5rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    color: var(--selva-900);
+    text-decoration: none;
+  }
+
+  .cabecera__nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.2rem;
+    height: 1px;
+    background: var(--oro-500);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms var(--ease);
+  }
+
+  .cabecera__nav a:hover::after,
+  .cabecera__nav a:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .cabecera__menu {
+    display: none;
+  }
+
+  @media (max-width: 760px) {
+    .cabecera__logo img {
+      height: 38px;
+    }
+
+    .cabecera__menu {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      margin-right: -0.5rem;
+      background: none;
+      border: 0;
+      border-radius: var(--radio);
+      color: var(--selva-900);
+      cursor: pointer;
+    }
+
+    .hamburguesa,
+    .hamburguesa::before,
+    .hamburguesa::after,
+    .hamburguesa span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 1px;
+      transition:
+        transform 300ms var(--ease),
+        opacity 200ms var(--ease);
+    }
+
+    .hamburguesa {
+      position: relative;
+      background: none;
+    }
+
+    .hamburguesa::before,
+    .hamburguesa::after {
+      content: '';
+      position: absolute;
+      left: 0;
+    }
+
+    .hamburguesa::before {
+      top: -7px;
+    }
+
+    .hamburguesa::after {
+      top: 7px;
+    }
+
+    [aria-expanded='true'] .hamburguesa span {
+      opacity: 0;
+    }
+
+    [aria-expanded='true'] .hamburguesa::before {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    [aria-expanded='true'] .hamburguesa::after {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .cabecera__nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--papel);
+      border-bottom: 1px solid rgb(18 52 42 / 0.12);
+      box-shadow: 0 16px 24px -16px rgb(12 38 28 / 0.4);
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition:
+        opacity 250ms var(--ease),
+        transform 250ms var(--ease),
+        visibility 0s linear 250ms;
+    }
+
+    .cabecera[data-abierta] .cabecera__nav {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+      transition:
+        opacity 250ms var(--ease),
+        transform 250ms var(--ease);
+    }
+
+    .cabecera__nav ul {
+      flex-direction: column;
+      gap: 0;
+      padding: 0.5rem var(--gutter) 1.25rem;
+    }
+
+    .cabecera__nav a {
+      display: block;
+      padding-block: 0.9rem;
+      font-size: 1.05rem;
+      border-bottom: 1px solid rgb(18 52 42 / 0.08);
+    }
+
+    .cabecera__nav li:last-child a {
+      border-bottom: 0;
+    }
+
+    .cabecera__nav a::after {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  function iniciarCabecera() {
+    const cabecera = document.querySelector<HTMLElement>('[data-cabecera]');
+    const boton = cabecera?.querySelector<HTMLButtonElement>('[data-boton-menu]');
+    if (!cabecera || !boton || cabecera.dataset.listo) return;
+    cabecera.dataset.listo = 'true';
+    const etiqueta = boton.querySelector('.solo-lectores');
+
+    const fijarMenu = (abierto: boolean) => {
+      boton.setAttribute('aria-expanded', String(abierto));
+      cabecera.toggleAttribute('data-abierta', abierto);
+      if (etiqueta) etiqueta.textContent = abierto ? 'Cerrar menú' : 'Abrir menú';
+    };
+
+    boton.addEventListener('click', () => fijarMenu(boton.getAttribute('aria-expanded') !== 'true'));
+    cabecera.querySelectorAll('nav a').forEach((a) => a.addEventListener('click', () => fijarMenu(false)));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && cabecera.hasAttribute('data-abierta')) {
+        fijarMenu(false);
+        boton.focus();
+      }
+    });
+    document.addEventListener('click', (e) => {
+      if (cabecera.hasAttribute('data-abierta') && !cabecera.contains(e.target as Node)) fijarMenu(false);
+    });
+
+    const actualizarSombra = () => cabecera.toggleAttribute('data-desplazada', window.scrollY > 8);
+    window.addEventListener('scroll', actualizarSombra, { passive: true });
+    actualizarSombra();
+  }
+
+  document.addEventListener('astro:page-load', iniciarCabecera);
+</script>

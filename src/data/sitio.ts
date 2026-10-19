@@ -1,0 +1,19 @@
+export const sitio = {
+  nombre: 'Estudio Manrique',
+  titulo: 'Estudio Manrique | Abogados en Puerto Maldonado, Madre de Dios',
+  descripcion:
+    'Estudio de abogados en Puerto Maldonado con más de 40 años de ejercicio. Conflictos inmobiliarios, minería, penal, agricultura y derecho forestal en Madre de Dios.',
+  direccion: 'Jr. Moquegua 750',
+  ciudad: 'Puerto Maldonado',
+  region: 'Madre de Dios',
+  whatsappVisible: '+51 982 329 343',
+  whatsappNumero: '51982329343',
+  whatsappMensaje: 'Hola, tengo una consulta',
+  mapsUrl: 'https://maps.app.goo.gl/ERhUx6dH7rGWgxr97',
+  lat: -12.596340146222591,
+  lng: -69.18231302360188,
+  anioCopyright: 2027,
+};
+
+export const whatsappUrl = `https://wa.me/${sitio.whatsappNumero}?text=${encodeURIComponent(sitio.whatsappMensaje)}`;
+export const mapaEmbedUrl = `https://maps.google.com/maps?q=${sitio.lat},${sitio.lng}&z=17&hl=es&output=embed`;

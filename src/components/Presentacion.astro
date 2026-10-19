@@ -1,0 +1,160 @@
+---
+import { Image } from 'astro:assets';
+import equipo from '../assets/equipo.jpg';
+import retrato from '../assets/antonio_manrique.jpg';
+import { sitio } from '../data/sitio';
+
+const trayectoria = [
+  { cifra: '42', texto: 'años de ejercicio profesional' },
+  { cifra: '15', texto: 'años en la Administración Pública' },
+  { cifra: '27', texto: 'años en la defensa privada' },
+];
+---
+
+<section class="seccion presentacion" id="presentacion" aria-labelledby="titulo-presentacion">
+  <div class="contenedor presentacion__rejilla">
+    <figure class="presentacion__equipo" data-revelar>
+      <div class="presentacion__marco foto-zoom">
+        <Image
+          src={equipo}
+          alt="Antonio Manrique sentado en su escritorio junto a las cuatro integrantes del equipo, con chalecos verdes del estudio"
+          widths={[560, 1049]}
+          sizes="(max-width: 900px) 100vw, 560px"
+        />
+      </div>
+      <figcaption>El equipo del estudio en nuestra oficina de {sitio.direccion}, {sitio.ciudad}.</figcaption>
+    </figure>
+
+    <div class="presentacion__texto" data-revelar>
+      <h2 id="titulo-presentacion">Presentación</h2>
+      <span class="filete" aria-hidden="true"></span>
+
+      <div class="abogado">
+        <Image class="abogado__foto" src={retrato} alt="Retrato de Antonio Manrique en su biblioteca" width={72} height={72} densities={[1, 2]} />
+        <div>
+          <h3 class="abogado__nombre">Antonio Manrique</h3>
+          <p class="abogado__cargo">Abogado fundador</p>
+        </div>
+      </div>
+
+      <p class="presentacion__bio">
+        Abogado colegiado y hábil en los Colegios de Abogados de Lima y de Madre de Dios, con 42 años de ejercicio
+        profesional: 15 en la Administración Pública y 27 en el ejercicio privado de la defensa.
+      </p>
+
+      <dl class="trayectoria">
+        {trayectoria.map((t) => (
+          <div>
+            <dt>{t.cifra}</dt>
+            <dd>{t.texto}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .presentacion__rejilla {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 6vw, 5.5rem);
+    align-items: center;
+  }
+
+  .presentacion__equipo {
+    position: relative;
+    isolation: isolate;
+    margin: 0;
+  }
+
+  .presentacion__marco {
+    border-radius: var(--radio);
+  }
+
+  .presentacion__marco :global(img) {
+    width: 100%;
+  }
+
+  /* Marco dorado desplazado: eco del triángulo del logo, sin repetirlo */
+  .presentacion__equipo::before {
+    content: '';
+    position: absolute;
+    inset: 1.25rem -1.25rem 2.75rem 1.25rem;
+    z-index: -1;
+    border: 1px solid var(--oro-500);
+    border-radius: var(--radio);
+  }
+
+  figcaption {
+    margin-top: 0.9rem;
+    font-size: 0.9rem;
+    color: var(--tinta-suave);
+  }
+
+  .abogado {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    margin-top: 2rem;
+  }
+
+  .abogado :global(.abogado__foto) {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 50% 20%;
+    border: 2px solid var(--oro-500);
+  }
+
+  .abogado__nombre {
+    font-size: 1.35rem;
+    color: var(--selva-900);
+  }
+
+  .abogado__cargo {
+    font-size: 0.95rem;
+    color: var(--tinta-suave);
+  }
+
+  .presentacion__bio {
+    margin-top: 1.5rem;
+    max-width: 34rem;
+    font-size: 1.125rem;
+  }
+
+  .trayectoria {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 2.25rem 0 0;
+    padding-top: 1.75rem;
+    border-top: 1px solid rgb(18 52 42 / 0.15);
+  }
+
+  .trayectoria dt {
+    font-family: var(--font-display);
+    font-size: 2.1rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--selva-700);
+  }
+
+  .trayectoria dd {
+    margin: 0.4rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--tinta-suave);
+  }
+
+  @media (max-width: 900px) {
+    .presentacion__rejilla {
+      grid-template-columns: 1fr;
+    }
+
+    .presentacion__equipo::before {
+      inset: 0.75rem -0.75rem 2.75rem 0.75rem;
+    }
+  }
+</style>

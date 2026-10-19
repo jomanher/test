@@ -1,0 +1,170 @@
+---
+import { Image } from 'astro:assets';
+import portada from '../assets/portada.webp';
+import { sitio, whatsappUrl } from '../data/sitio';
+---
+
+<section class="portada" id="inicio" aria-labelledby="titulo-portada">
+  <Image
+    class="portada__fondo"
+    src={portada}
+    alt=""
+    widths={[768, 1280, 2000]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="portada__velo" aria-hidden="true"></div>
+
+  <div class="contenedor portada__contenido">
+    <div class="portada__texto">
+      <h1 id="titulo-portada" class="portada__titulo" transition:name="marca">
+        <span>Estudio</span>
+        <span>Manrique</span>
+      </h1>
+      <span class="portada__filete" aria-hidden="true"></span>
+      <p class="portada__lema">
+        Abogados en {sitio.ciudad}, {sitio.region}. Más de cuatro décadas defendiendo la tierra, el trabajo y la
+        libertad de nuestros clientes.
+      </p>
+      <div class="portada__acciones">
+        <a class="boton boton--oro" href={whatsappUrl} target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+        <a class="boton boton--claro" href="#especialidades">Ver especialidades</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .portada {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    align-items: center;
+    min-height: clamp(34rem, calc(100svh - var(--cabecera-alto)), 54rem);
+    overflow: hidden;
+    background: var(--selva-950);
+    color: var(--blanco);
+  }
+
+  .portada__fondo {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 20% center;
+    animation: acercar 2400ms var(--ease) both;
+  }
+
+  /* Velo verde: deja ver la balanza a la izquierda y oscurece la zona del título */
+  .portada__velo {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(90deg, rgb(12 38 28 / 0.15) 0%, rgb(12 38 28 / 0.55) 45%, rgb(12 38 28 / 0.88) 72%),
+      linear-gradient(0deg, rgb(12 38 28 / 0.55), transparent 35%);
+  }
+
+  .portada__contenido {
+    display: flex;
+    justify-content: flex-end;
+    padding-block: 4rem;
+  }
+
+  .portada__texto {
+    max-width: 32rem;
+  }
+
+  .portada__titulo {
+    display: flex;
+    flex-direction: column;
+    font-size: clamp(2.9rem, 1.6rem + 5.2vw, 5.6rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    color: var(--blanco);
+    text-shadow: 0 2px 24px rgb(12 38 28 / 0.5);
+  }
+
+  .portada__titulo span {
+    animation: asentar 1400ms var(--ease) both;
+  }
+
+  .portada__titulo span:last-child {
+    color: var(--oro-300);
+    animation-delay: 150ms;
+  }
+
+  .portada__filete {
+    display: block;
+    width: 6rem;
+    height: 2px;
+    margin-block: 1.75rem 1.5rem;
+    background: var(--oro-500);
+    transform-origin: left;
+    animation: trazar 900ms var(--ease) 700ms both;
+  }
+
+  .portada__lema {
+    max-width: 30rem;
+    font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+    color: rgb(255 255 255 / 0.88);
+    animation: aparecer 900ms var(--ease) 1000ms both;
+  }
+
+  .portada__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    animation: aparecer 900ms var(--ease) 1150ms both;
+  }
+
+  @keyframes acercar {
+    from {
+      transform: scale(1.06);
+    }
+  }
+
+  @keyframes asentar {
+    from {
+      opacity: 0;
+      letter-spacing: 0.16em;
+    }
+  }
+
+  @keyframes trazar {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .portada {
+      align-items: end;
+    }
+
+    .portada__fondo {
+      object-position: 32% center;
+    }
+
+    .portada__velo {
+      background: linear-gradient(0deg, rgb(12 38 28 / 0.95) 0%, rgb(12 38 28 / 0.7) 45%, rgb(12 38 28 / 0.2) 100%);
+    }
+
+    .portada__contenido {
+      justify-content: flex-start;
+      padding-block: 3rem 2.5rem;
+    }
+  }
+</style>

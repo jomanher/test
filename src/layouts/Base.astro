@@ -1,0 +1,127 @@
+---
+import { Font } from 'astro:assets';
+import { ClientRouter } from 'astro:transitions';
+import Cabecera from '../components/Cabecera.astro';
+import PiePagina from '../components/PiePagina.astro';
+import BotonWhatsApp from '../components/BotonWhatsApp.astro';
+import { sitio } from '../data/sitio';
+import { especialidades } from '../data/especialidades';
+import '../styles/global.css';
+
+interface Props {
+  titulo?: string;
+  descripcion?: string;
+}
+
+const { titulo = sitio.titulo, descripcion = sitio.descripcion } = Astro.props;
+const canonica = new URL(Astro.url.pathname, Astro.site);
+const imagenOg = new URL('/og-portada.jpg', Astro.site);
+
+const datosEstructurados = {
+  '@context': 'https://schema.org',
+  '@type': 'LegalService',
+  name: sitio.nombre,
+  description: sitio.descripcion,
+  url: Astro.site?.href,
+  image: imagenOg.href,
+  logo: new URL('/favicon.png', Astro.site).href,
+  telephone: `+${sitio.whatsappNumero}`,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: sitio.direccion,
+    addressLocality: sitio.ciudad,
+    addressRegion: sitio.region,
+    addressCountry: 'PE',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: sitio.lat, longitude: sitio.lng },
+  hasMap: sitio.mapsUrl,
+  areaServed: { '@type': 'AdministrativeArea', name: sitio.region },
+  knowsAbout: especialidades.map((e) => e.nombre),
+  founder: { '@type': 'Person', name: 'Antonio Manrique', jobTitle: 'Abogado' },
+};
+---
+
+<!doctype html>
+<html lang="es-PE">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonica} />
+    <meta name="theme-color" content="#12342a" />
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:site_name" content={sitio.nombre} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:image" content={imagenOg} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <Font cssVariable="--font-display" preload />
+    <Font cssVariable="--font-body" preload />
+
+    <script is:inline data-astro-rerun>
+      document.documentElement.classList.add('js');
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(datosEstructurados)} />
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <Cabecera />
+    <main id="contenido">
+      <slot />
+    </main>
+    <PiePagina />
+    <BotonWhatsApp />
+
+    <style>
+      .saltar {
+        position: absolute;
+        left: 1rem;
+        top: -4rem;
+        z-index: 100;
+        padding: 0.6rem 1rem;
+        background: var(--selva-900);
+        color: var(--blanco);
+        border-radius: var(--radio);
+      }
+
+      .saltar:focus {
+        top: 1rem;
+      }
+    </style>
+
+    <script>
+      function iniciarRevelado() {
+        const elementos = document.querySelectorAll<HTMLElement>('[data-revelar]:not(.visible)');
+        if (!('IntersectionObserver' in window)) {
+          elementos.forEach((el) => el.classList.add('visible'));
+          return;
+        }
+        const observador = new IntersectionObserver(
+          (entradas) => {
+            for (const entrada of entradas) {
+              if (entrada.isIntersecting) {
+                entrada.target.classList.add('visible');
+                observador.unobserve(entrada.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
+        );
+        elementos.forEach((el) => observador.observe(el));
+      }
+
+      document.addEventListener('astro:page-load', iniciarRevelado);
+    </script>
+  </body>
+</html>
