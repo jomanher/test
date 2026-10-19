@@ -21,7 +21,6 @@ import { especialidades } from '../data/especialidades';
               data-foto={e.id}
               src={e.imagen}
               alt=""
-              width={560}
             />
           ))}
         </div>
@@ -31,7 +30,7 @@ import { especialidades } from '../data/especialidades';
         {especialidades.map((e) => (
           <li class="especialidad" id={e.id} data-especialidad={e.id} data-revelar>
             <div class="especialidad__foto foto-zoom">
-              <Image src={e.imagen} alt={e.alt} width={720} />
+              <Image src={e.imagen} alt={e.alt} />
             </div>
             <h3>{e.nombre}</h3>
             <p>{e.resumen}</p>
@@ -186,7 +185,7 @@ import { especialidades } from '../data/especialidades';
       display: block;
       margin-bottom: 1.5rem;
       border-radius: var(--radio);
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 5 / 4;
     }
 
     .especialidad__foto :global(img) {
