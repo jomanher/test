@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://estudiomanrique.com/sitemap.xml

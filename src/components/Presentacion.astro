@@ -29,7 +29,7 @@ const trayectoria = [
       <div class="abogado">
         <Image class="abogado__foto" src={retrato} alt="Retrato de Antonio Manrique en su biblioteca" width={72} height={72} densities={[1, 2]} />
         <div>
-          <h3 class="abogado__nombre">Antonio Manrique</h3>
+          <h2 class="abogado__nombre">Antonio Manrique</h2>
           <p class="abogado__cargo">Abogado</p>
         </div>
       </div>
@@ -98,6 +98,7 @@ const trayectoria = [
 
   .abogado__nombre {
     font-size: 1.35rem;
+    letter-spacing: 0;
     color: var(--selva-900);
   }
 
@@ -137,11 +138,7 @@ const trayectoria = [
   }
 
   @media (max-width: 900px) {
-    .presentacion {
-    padding-block: clamp(2.5rem, 5vw, 4rem);
-  }
-
-  .presentacion__rejilla {
+    .presentacion__rejilla {
       grid-template-columns: 1fr;
     }
   }

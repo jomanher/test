@@ -11,16 +11,32 @@ import '../styles/global.css';
 interface Props {
   titulo?: string;
   descripcion?: string;
+  /** Evita que Google indexe la página (p. ej. la 404) */
+  noIndexar?: boolean;
 }
 
-const { titulo = sitio.titulo, descripcion = sitio.descripcion } = Astro.props;
+const { titulo = sitio.titulo, descripcion = sitio.descripcion, noIndexar = false } = Astro.props;
 const canonica = new URL(Astro.url.pathname, Astro.site);
 const imagenOg = new URL('/og-portada.jpg', Astro.site);
+
+const abogado = {
+  '@type': 'Person',
+  '@id': new URL('/#antonio-manrique', Astro.site).href,
+  name: 'Antonio Manrique',
+  jobTitle: 'Abogado',
+  knowsLanguage: 'es',
+  memberOf: [
+    { '@type': 'Organization', name: 'Ilustre Colegio de Abogados de Lima' },
+    { '@type': 'Organization', name: 'Colegio de Abogados de Madre de Dios' },
+  ],
+};
 
 const datosEstructurados = {
   '@context': 'https://schema.org',
   '@type': 'LegalService',
+  '@id': new URL('/#estudio', Astro.site).href,
   name: sitio.nombre,
+  alternateName: 'Abogado Antonio Manrique - Puerto Maldonado',
   description: sitio.descripcion,
   url: Astro.site?.href,
   image: imagenOg.href,
@@ -34,10 +50,24 @@ const datosEstructurados = {
     addressCountry: 'PE',
   },
   geo: { '@type': 'GeoCoordinates', latitude: sitio.lat, longitude: sitio.lng },
-  hasMap: sitio.mapsUrl,
-  areaServed: { '@type': 'AdministrativeArea', name: sitio.region },
+  hasMap: sitio.perfilGoogle,
+  sameAs: [sitio.perfilGoogle],
+  areaServed: [
+    { '@type': 'City', name: sitio.ciudad },
+    { '@type': 'AdministrativeArea', name: sitio.region },
+  ],
   knowsAbout: especialidades.map((e) => e.nombre),
-  founder: { '@type': 'Person', name: 'Antonio Manrique', jobTitle: 'Abogado' },
+  knowsLanguage: 'es',
+  founder: abogado,
+  employee: abogado,
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Especialidades',
+    itemListElement: especialidades.map((e) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: e.nombre, description: e.casos.join('. ') },
+    })),
+  },
 };
 ---
 
@@ -48,7 +78,8 @@ const datosEstructurados = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
-    <link rel="canonical" href={canonica} />
+    {noIndexar ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonica} />}
+    <link rel="sitemap" href="/sitemap.xml" />
     <meta name="theme-color" content="#12342a" />
 
     <link rel="icon" type="image/png" href="/favicon.png" />

@@ -10,6 +10,8 @@ export const sitio = {
   whatsappNumero: '51982329343',
   whatsappMensaje: 'Hola, tengo una consulta',
   mapsUrl: 'https://maps.app.goo.gl/ERhUx6dH7rGWgxr97',
+  // Perfil de Empresa en Google (identificador CID del lugar)
+  perfilGoogle: 'https://maps.google.com/?cid=675553147503306023',
   lat: -12.596340146222591,
   lng: -69.18231302360188,
   anioCopyright: 2027,
