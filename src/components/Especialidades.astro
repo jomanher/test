@@ -11,37 +11,23 @@ import { especialidades } from '../data/especialidades';
       <p>Los asuntos que más atendemos en Puerto Maldonado y el resto de Madre de Dios.</p>
     </header>
 
-    <div class="especialidades__rejilla" data-especialidades>
-      <!-- En escritorio, la foto queda fija y cambia según la especialidad que se está leyendo -->
-      <div class="visor" aria-hidden="true">
-        <div class="visor__marco">
-          {especialidades.map((e, i) => (
-            <Image
-              class:list={['visor__foto', { activa: i === 0 }]}
-              data-foto={e.id}
-              src={e.imagen}
-              alt=""
-            />
-          ))}
-        </div>
-      </div>
-
-      <ol class="especialidades__lista" role="list">
-        {especialidades.map((e) => (
-          <li class="especialidad" id={e.id} data-especialidad={e.id} data-revelar>
-            <div class="especialidad__foto foto-zoom">
-              <Image src={e.imagen} alt={e.alt} />
-            </div>
+    <ol class="especialidades__lista" role="list">
+      {especialidades.map((e) => (
+        <li class="especialidad" id={e.id} data-revelar>
+          <div class="especialidad__foto foto-zoom">
+            <Image src={e.imagen} alt={e.alt} widths={[240, 480]} sizes="(max-width: 560px) 100vw, 240px" />
+          </div>
+          <div class="especialidad__texto">
             <h3>{e.nombre}</h3>
             <ul>
               {e.casos.map((c) => (
                 <li>{c}</li>
               ))}
             </ul>
-          </li>
-        ))}
-      </ol>
-    </div>
+          </div>
+        </li>
+      ))}
+    </ol>
   </div>
 </section>
 
@@ -60,83 +46,61 @@ import { especialidades } from '../data/especialidades';
     color: var(--tinta-suave);
   }
 
-  .especialidades__rejilla {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(2.5rem, 6vw, 6rem);
-    margin-top: clamp(2.5rem, 5vw, 4rem);
-  }
-
-  .visor {
-    position: relative;
-  }
-
-  .visor__marco {
-    position: sticky;
-    top: calc(var(--cabecera-alto) + 2.5rem);
-    aspect-ratio: 1;
-    max-height: calc(100svh - var(--cabecera-alto) - 5rem);
-    overflow: hidden;
-    border-radius: var(--radio);
-    background: var(--selva-900);
-  }
-
-  .visor :global(.visor__foto) {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transform: scale(1.03);
-    transition:
-      opacity 700ms var(--ease),
-      transform 1200ms var(--ease);
-  }
-
-  .visor :global(.visor__foto.activa) {
-    opacity: 1;
-    transform: none;
-  }
-
   .especialidades__lista {
-    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 4vw, 3rem) clamp(2rem, 5vw, 4rem);
+    margin: clamp(2.5rem, 5vw, 3.5rem) 0 0;
     padding: 0;
     list-style: none;
   }
 
-  .especialidad {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: min(52svh, 28rem);
-    padding-block: 2rem;
-    border-top: 1px solid rgb(18 52 42 / 0.12);
+  /* La quinta especialidad queda sola: se centra en la última fila */
+  .especialidad:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - clamp(1rem, 2.5vw, 2rem));
   }
 
-  .especialidad:first-child {
-    border-top: 0;
-    padding-top: 0;
-    justify-content: flex-start;
-    min-height: min(44svh, 22rem);
+  /* Foto y texto lado a lado; la foto toma el alto del texto */
+  .especialidad {
+    display: grid;
+    grid-template-columns: 11.5rem minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: stretch;
+  }
+
+  .especialidad__foto {
+    min-height: 11.5rem;
+    border-radius: var(--radio);
+  }
+
+  .especialidad__foto :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .especialidad__texto {
+    align-self: center;
   }
 
   .especialidad h3 {
-    font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.2rem);
+    font-size: clamp(1.3rem, 1.1rem + 0.6vw, 1.6rem);
     color: var(--selva-900);
-    transition: color 400ms var(--ease);
   }
 
   .especialidad ul {
-    margin: 1.25rem 0 0;
+    margin: 0.75rem 0 0;
     padding: 0;
     list-style: none;
   }
 
   .especialidad ul li {
     position: relative;
-    padding: 0.45rem 0 0.45rem 1.5rem;
-    font-size: 1.1rem;
+    padding: 0.25rem 0 0.25rem 1.4rem;
+    font-size: 1rem;
+    line-height: 1.5;
   }
 
   /* Rombo dorado como viñeta */
@@ -144,69 +108,32 @@ import { especialidades } from '../data/especialidades';
     content: '';
     position: absolute;
     left: 0.15rem;
-    top: 1.05em;
-    width: 7px;
-    height: 7px;
+    top: 0.9em;
+    width: 6px;
+    height: 6px;
     background: var(--oro-500);
     transform: rotate(45deg);
   }
 
-  .especialidad__foto {
-    display: none;
-  }
-
-  @media (max-width: 900px) {
-    .especialidades__rejilla {
+  @media (max-width: 1000px) {
+    .especialidades__lista {
       grid-template-columns: 1fr;
     }
 
-    .visor {
-      display: none;
+    .especialidad:last-child:nth-child(odd) {
+      width: 100%;
     }
+  }
 
-    .especialidad,
-    .especialidad:first-child {
-      min-height: 0;
-      padding-block: 2.5rem;
-    }
-
-    .especialidad:first-child {
-      padding-top: 0;
+  @media (max-width: 560px) {
+    .especialidad {
+      grid-template-columns: 1fr;
+      gap: 1rem;
     }
 
     .especialidad__foto {
-      display: block;
-      margin-bottom: 1.5rem;
-      border-radius: var(--radio);
+      min-height: 0;
       aspect-ratio: 5 / 4;
-    }
-
-    .especialidad__foto :global(img) {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
     }
   }
 </style>
-
-<script>
-  function iniciarEspecialidades() {
-    const rejilla = document.querySelector<HTMLElement>('[data-especialidades]');
-    if (!rejilla || !('IntersectionObserver' in window)) return;
-    const fotos = rejilla.querySelectorAll<HTMLElement>('[data-foto]');
-    const activar = (id: string) => fotos.forEach((f) => f.classList.toggle('activa', f.dataset.foto === id));
-
-    // Se activa la especialidad que cruza la franja central de la pantalla
-    const observador = new IntersectionObserver(
-      (entradas) => {
-        for (const entrada of entradas) {
-          if (entrada.isIntersecting) activar((entrada.target as HTMLElement).dataset.especialidad ?? '');
-        }
-      },
-      { rootMargin: '-45% 0px -45% 0px' },
-    );
-    rejilla.querySelectorAll('[data-especialidad]').forEach((el) => observador.observe(el));
-  }
-
-  document.addEventListener('astro:page-load', iniciarEspecialidades);
-</script>
