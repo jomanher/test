@@ -90,7 +90,7 @@ section[id] {
 }
 
 .seccion {
-  padding-block: clamp(4rem, 9vw, 7.5rem);
+  padding-block: clamp(3rem, 6vw, 5rem);
 }
 
 /* Filete dorado bajo los títulos de sección */

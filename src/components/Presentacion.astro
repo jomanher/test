@@ -52,6 +52,10 @@ const trayectoria = [
 </section>
 
 <style>
+  .presentacion {
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+  }
+
   .presentacion__rejilla {
     display: grid;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
@@ -133,7 +137,11 @@ const trayectoria = [
   }
 
   @media (max-width: 900px) {
-    .presentacion__rejilla {
+    .presentacion {
+    padding-block: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .presentacion__rejilla {
       grid-template-columns: 1fr;
     }
   }
