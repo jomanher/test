@@ -8,7 +8,6 @@ import forestal from '../assets/especialidades/forestal.jpg';
 export interface Especialidad {
   id: string;
   nombre: string;
-  resumen: string;
   casos: string[];
   imagen: ImageMetadata;
   alt: string;
@@ -18,8 +17,6 @@ export const especialidades: Especialidad[] = [
   {
     id: 'conflictos-inmobiliarios',
     nombre: 'Conflictos inmobiliarios',
-    resumen:
-      'Saneamos y defendemos la propiedad de terrenos urbanos y rurales: títulos, inscripción en SUNARP, invasiones y superposición de predios, un problema frecuente en la expansión de Puerto Maldonado.',
     casos: [
       'Títulos e inscripción en SUNARP',
       'Invasiones y desalojo',
@@ -33,8 +30,6 @@ export const especialidades: Especialidad[] = [
   {
     id: 'mineria',
     nombre: 'Minería',
-    resumen:
-      'Acompañamos a mineros de Madre de Dios en su formalización y en la defensa de sus derechos: petitorios, concesiones, contratos de explotación y conflictos con concesiones o predios superpuestos.',
     casos: [
       'Formalización minera y REINFO',
       'Petitorios y concesiones',
@@ -47,8 +42,6 @@ export const especialidades: Especialidad[] = [
   {
     id: 'penal',
     nombre: 'Penal',
-    resumen:
-      'Defensa técnica desde la investigación preliminar hasta el juicio oral, con experiencia en los delitos que más se investigan en la región.',
     casos: [
       'Delitos ambientales: minería ilegal y tala',
       'Usurpación y daños: defensa frente a estos delitos',
@@ -61,8 +54,6 @@ export const especialidades: Especialidad[] = [
   {
     id: 'agricultura',
     nombre: 'Agricultura',
-    resumen:
-      'Formalizamos la tierra de quienes la trabajan: titulación de predios rústicos, constancias de posesión, contratos agrarios y conflictos entre parceleros o asociaciones.',
     casos: [
       'Titulación de predios rústicos',
       'Constancias y certificados de posesión',
@@ -76,8 +67,6 @@ export const especialidades: Especialidad[] = [
   {
     id: 'forestal',
     nombre: 'Forestal',
-    resumen:
-      'Asesoramos a titulares de concesiones forestales, de castaña y de shiringa, y los defendemos en procedimientos sancionadores ante OSINFOR y la autoridad forestal regional.',
     casos: [
       'Concesiones de castaña y madera',
       'Planes de manejo y permisos',

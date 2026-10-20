@@ -33,19 +33,10 @@ import { especialidades } from '../data/especialidades';
               <Image src={e.imagen} alt={e.alt} />
             </div>
             <h3>{e.nombre}</h3>
-            <p>{e.resumen}</p>
             <ul>
-              {e.casos.map((c) => {
-                // "Tema: detalle" muestra el tema en negrita
-                const [tema, ...detalle] = c.split(': ');
-                return detalle.length ? (
-                  <li>
-                    <strong>{tema}:</strong> {detalle.join(': ')}
-                  </li>
-                ) : (
-                  <li>{c}</li>
-                );
-              })}
+              {e.casos.map((c) => (
+                <li>{c}</li>
+              ))}
             </ul>
           </li>
         ))}
@@ -136,27 +127,16 @@ import { especialidades } from '../data/especialidades';
     transition: color 400ms var(--ease);
   }
 
-  .especialidad > p {
-    margin-top: 1rem;
-    max-width: 34rem;
-    font-size: 1.1rem;
-  }
-
   .especialidad ul {
-    margin: 1.5rem 0 0;
+    margin: 1.25rem 0 0;
     padding: 0;
     list-style: none;
-  }
-
-  .especialidad ul li strong {
-    font-weight: 600;
-    color: var(--tinta);
   }
 
   .especialidad ul li {
     position: relative;
     padding: 0.45rem 0 0.45rem 1.5rem;
-    color: var(--tinta-suave);
+    font-size: 1.1rem;
   }
 
   /* Rombo dorado como viñeta */
