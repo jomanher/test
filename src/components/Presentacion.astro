@@ -11,7 +11,7 @@ const trayectoria = [
 ];
 ---
 
-<section class="seccion presentacion" id="presentacion" aria-labelledby="titulo-presentacion">
+<section class="seccion presentacion" id="presentacion" aria-label="Presentación">
   <div class="contenedor presentacion__rejilla">
     <figure class="presentacion__equipo" data-revelar>
       <div class="presentacion__marco foto-zoom">
@@ -26,9 +26,6 @@ const trayectoria = [
     </figure>
 
     <div class="presentacion__texto" data-revelar>
-      <h2 id="titulo-presentacion">Presentación</h2>
-      <span class="filete" aria-hidden="true"></span>
-
       <div class="abogado">
         <Image class="abogado__foto" src={retrato} alt="Retrato de Antonio Manrique en su biblioteca" width={72} height={72} densities={[1, 2]} />
         <div>
@@ -63,8 +60,6 @@ const trayectoria = [
   }
 
   .presentacion__equipo {
-    position: relative;
-    isolation: isolate;
     margin: 0;
   }
 
@@ -74,16 +69,6 @@ const trayectoria = [
 
   .presentacion__marco :global(img) {
     width: 100%;
-  }
-
-  /* Marco dorado desplazado: eco del triángulo del logo, sin repetirlo */
-  .presentacion__equipo::before {
-    content: '';
-    position: absolute;
-    inset: 1.25rem -1.25rem 2.75rem 1.25rem;
-    z-index: -1;
-    border: 1px solid var(--oro-500);
-    border-radius: var(--radio);
   }
 
   figcaption {
@@ -96,7 +81,6 @@ const trayectoria = [
     display: flex;
     align-items: center;
     gap: 1.1rem;
-    margin-top: 2rem;
   }
 
   .abogado :global(.abogado__foto) {
@@ -151,10 +135,6 @@ const trayectoria = [
   @media (max-width: 900px) {
     .presentacion__rejilla {
       grid-template-columns: 1fr;
-    }
-
-    .presentacion__equipo::before {
-      inset: 0.75rem -0.75rem 2.75rem 0.75rem;
     }
   }
 </style>
