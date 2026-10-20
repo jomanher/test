@@ -9,9 +9,12 @@ export const sitio = {
   whatsappVisible: '+51 982 329 343',
   whatsappNumero: '51982329343',
   whatsappMensaje: 'Hola, tengo una consulta',
-  mapsUrl: 'https://maps.app.goo.gl/ERhUx6dH7rGWgxr97',
   // Perfil de Empresa en Google (identificador CID del lugar)
   perfilGoogle: 'https://maps.google.com/?cid=675553147503306023',
+  horario: 'Lunes a sábado, de 7:00 a. m. a 6:00 p. m.',
+  horarioDias: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  horarioApertura: '07:00',
+  horarioCierre: '18:00',
   lat: -12.596340146222591,
   lng: -69.18231302360188,
   anioCopyright: 2027,

@@ -51,6 +51,12 @@ const datosEstructurados = {
   },
   geo: { '@type': 'GeoCoordinates', latitude: sitio.lat, longitude: sitio.lng },
   hasMap: sitio.perfilGoogle,
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: sitio.horarioDias,
+    opens: sitio.horarioApertura,
+    closes: sitio.horarioCierre,
+  },
   sameAs: [sitio.perfilGoogle],
   areaServed: [
     { '@type': 'City', name: sitio.ciudad },

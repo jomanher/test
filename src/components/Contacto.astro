@@ -24,6 +24,10 @@ import IconoWhatsApp from './IconoWhatsApp.astro';
           <dt>WhatsApp</dt>
           <dd><a href={whatsappUrl} target="_blank" rel="noopener">{sitio.whatsappVisible}</a></dd>
         </div>
+        <div>
+          <dt>Horario de atención</dt>
+          <dd>{sitio.horario}</dd>
+        </div>
       </dl>
 
       <div class="contacto__acciones">
@@ -31,7 +35,7 @@ import IconoWhatsApp from './IconoWhatsApp.astro';
           <IconoWhatsApp />
           Escríbenos por WhatsApp
         </a>
-        <a class="boton contacto__ruta" href={sitio.mapsUrl} target="_blank" rel="noopener">Cómo llegar en Google Maps</a>
+        <a class="boton contacto__ruta" href={sitio.perfilGoogle} target="_blank" rel="noopener">Cómo llegar en Google Maps</a>
       </div>
     </div>
 
