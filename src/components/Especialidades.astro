@@ -35,9 +35,17 @@ import { especialidades } from '../data/especialidades';
             <h3>{e.nombre}</h3>
             <p>{e.resumen}</p>
             <ul>
-              {e.casos.map((c) => (
-                <li>{c}</li>
-              ))}
+              {e.casos.map((c) => {
+                // "Tema: detalle" muestra el tema en negrita
+                const [tema, ...detalle] = c.split(': ');
+                return detalle.length ? (
+                  <li>
+                    <strong>{tema}:</strong> {detalle.join(': ')}
+                  </li>
+                ) : (
+                  <li>{c}</li>
+                );
+              })}
             </ul>
           </li>
         ))}
@@ -138,6 +146,11 @@ import { especialidades } from '../data/especialidades';
     margin: 1.5rem 0 0;
     padding: 0;
     list-style: none;
+  }
+
+  .especialidad ul li strong {
+    font-weight: 600;
+    color: var(--tinta);
   }
 
   .especialidad ul li {
