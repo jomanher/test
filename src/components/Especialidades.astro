@@ -12,16 +12,16 @@ import { especialidades } from '../data/especialidades';
     </header>
 
     <ol class="especialidades__lista" role="list">
-      {especialidades.map((e) => (
-        <li class="especialidad" id={e.id} data-revelar>
+      {especialidades.map((e, i) => (
+        <li class="especialidad" id={e.id} data-revelar style={`--columna: ${i % 2}`}>
           <div class="especialidad__foto foto-zoom">
             <Image src={e.imagen} alt={e.alt} widths={[240, 480]} sizes="(max-width: 560px) 100vw, 240px" />
           </div>
           <div class="especialidad__texto">
             <h3>{e.nombre}</h3>
             <ul>
-              {e.casos.map((c) => (
-                <li>{c}</li>
+              {e.casos.map((c, j) => (
+                <li style={`--orden: ${j}`}>{c}</li>
               ))}
             </ul>
           </div>
@@ -115,7 +115,84 @@ import { especialidades } from '../data/especialidades';
     transform: rotate(45deg);
   }
 
+  /*
+   * Entrada al hacer scroll: la foto se descubre de izquierda a derecha y el
+   * texto llega después, punto por punto. La columna derecha va un poco detrás.
+   */
+  .especialidad {
+    --retraso: calc(var(--columna, 0) * 140ms);
+  }
+
+  :global(.js) .especialidad[data-revelar] {
+    opacity: 1;
+    transform: none;
+  }
+
+  :global(.js) .especialidad__foto {
+    clip-path: inset(0 100% 0 0 round var(--radio));
+    transition: clip-path 1000ms var(--ease) var(--retraso);
+  }
+
+  :global(.js) .especialidad__foto :global(img) {
+    scale: 1.12;
+    transition:
+      scale 1400ms var(--ease) var(--retraso),
+      transform 900ms var(--ease);
+  }
+
+  :global(.js) .especialidad h3,
+  :global(.js) .especialidad ul li {
+    opacity: 0;
+    transform: translateX(18px);
+    transition:
+      opacity 700ms var(--ease),
+      transform 700ms var(--ease);
+  }
+
+  :global(.js) .especialidad h3 {
+    transition-delay: calc(var(--retraso) + 300ms);
+  }
+
+  :global(.js) .especialidad ul li {
+    transition-delay: calc(var(--retraso) + 420ms + var(--orden, 0) * 80ms);
+  }
+
+  :global(.js) .especialidad:global(.visible) .especialidad__foto {
+    clip-path: inset(0 0 0 0 round var(--radio));
+  }
+
+  :global(.js) .especialidad:global(.visible) .especialidad__foto :global(img) {
+    scale: 1;
+  }
+
+  :global(.js) .especialidad:global(.visible) h3,
+  :global(.js) .especialidad:global(.visible) ul li {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .especialidad__foto {
+      clip-path: none;
+    }
+
+    :global(.js) .especialidad__foto :global(img) {
+      scale: 1;
+    }
+
+    :global(.js) .especialidad h3,
+    :global(.js) .especialidad ul li {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   @media (max-width: 1000px) {
+    /* En una sola columna no hace falta desfasar */
+    .especialidad {
+      --retraso: 0ms;
+    }
+
     .especialidades__lista {
       grid-template-columns: 1fr;
     }
